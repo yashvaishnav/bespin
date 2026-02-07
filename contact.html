@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact | San Diego Eye Plastic Surgeons</title>
+  <meta name="description" content="Schedule a consultation with Dr. Yash Vaishnav, board-certified oculofacial plastic surgeon in San Diego, CA. Contact our office today.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header header--transparent" data-transparent="true">
+    <div class="header__inner">
+      <a href="index.html" class="header__logo">
+        <span class="header__logo-name">San Diego Eye Plastic Surgeons</span>
+        <span class="header__logo-tagline">Oculofacial Plastic Surgery</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav">
+        <a href="about.html" class="nav__link">Dr. Vaishnav</a>
+        <div class="nav__dropdown">
+          <a class="nav__link nav__dropdown-trigger">
+            Surgical
+            <svg viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2"/></svg>
+          </a>
+          <div class="nav__dropdown-menu">
+            <a href="eyelid.html">Eyelid</a>
+            <a href="eyebrow.html">Eyebrow</a>
+            <a href="face.html">Face</a>
+          </div>
+        </div>
+        <a href="non-surgical.html" class="nav__link">Non-Surgical</a>
+        <a href="reconstructive.html" class="nav__link">Reconstructive</a>
+        <a href="gallery.html" class="nav__link">Gallery</a>
+        <a href="shop.html" class="nav__link">Shop</a>
+        <a href="contact.html" class="nav__link nav__link--active">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero hero--short">
+    <div class="hero__bg" style="background-image: url('images/hero-contact.jpg');"></div>
+    <div class="hero__overlay"></div>
+    <div class="hero__content">
+      <span class="subheading">Schedule a Consultation</span>
+      <h1>Contact</h1>
+    </div>
+  </section>
+
+  <!-- Contact Form & Info -->
+  <section class="section section--cream">
+    <div class="container">
+      <div class="two-col fade-in">
+        <div class="two-col__content">
+          <span class="subheading">Get in Touch</span>
+          <h2>Request a Consultation</h2>
+          <div class="divider"></div>
+          <form class="contact-form" id="contact-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="first-name">First Name</label>
+                <input type="text" id="first-name" name="first_name" required>
+              </div>
+              <div class="form-group">
+                <label for="last-name">Last Name</label>
+                <input type="text" id="last-name" name="last_name" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone</label>
+              <input type="tel" id="phone" name="phone">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="area-of-interest">Area of Interest</label>
+                <select id="area-of-interest" name="area_of_interest">
+                  <option value="">Select One</option>
+                  <option value="eyelid-surgery">Eyelid Surgery</option>
+                  <option value="brow-forehead">Brow &amp; Forehead</option>
+                  <option value="facial-surgery">Facial Surgery</option>
+                  <option value="non-surgical">Non-Surgical</option>
+                  <option value="reconstructive">Reconstructive</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="contact-method">Preferred Contact Method</label>
+                <select id="contact-method" name="contact_method">
+                  <option value="">No Preference</option>
+                  <option value="phone">Phone</option>
+                  <option value="email">Email</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" required></textarea>
+            </div>
+            <button type="submit" class="btn btn--filled">Request Consultation</button>
+          </form>
+        </div>
+        <div class="contact-info">
+          <div class="contact-info__item">
+            <h4>Office Location</h4>
+            <p>4150 Regents Park Row, Suite 280</p>
+            <p>San Diego, CA 92122</p>
+          </div>
+          <div class="contact-info__item">
+            <h4>Phone</h4>
+            <p><a href="tel:+16195551234">(619) 555-1234</a></p>
+          </div>
+          <div class="contact-info__item">
+            <h4>Email</h4>
+            <p><a href="mailto:info@sdeyeplastic.com">info@sdeyeplastic.com</a></p>
+          </div>
+          <div class="contact-info__item">
+            <h4>Office Hours</h4>
+            <p>Monday &ndash; Friday: 9:00 AM &ndash; 5:00 PM</p>
+            <p>Saturday &amp; Sunday: Closed</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Map Placeholder -->
+  <section class="section section--white" style="padding: 0;">
+    <div style="width: 100%; height: 400px; background-color: #D5D0C8; display: flex; align-items: center; justify-content: center;">
+      <p style="font-size: 0.8rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #9A9189;">Google Map Embed</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <span class="header__logo-name">San Diego Eye Plastic Surgeons</span>
+          <p style="margin-top: 16px;">Oculofacial plastic surgery by Dr. Yash Vaishnav. Specializing in surgical and non-surgical procedures of the eyelids, brows, and face in San Diego, California.</p>
+        </div>
+        <div>
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="about.html">Dr. Vaishnav</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Procedures</h4>
+          <ul>
+            <li><a href="eyelid.html">Eyelid Surgery</a></li>
+            <li><a href="eyebrow.html">Brow & Forehead</a></li>
+            <li><a href="face.html">Facial Surgery</a></li>
+            <li><a href="non-surgical.html">Non-Surgical</a></li>
+            <li><a href="reconstructive.html">Reconstructive</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="tel:+16195551234">(619) 555-1234</a></li>
+            <li><a href="mailto:info@sdeyeplastic.com">info@sdeyeplastic.com</a></li>
+            <li>San Diego, CA</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>&copy; 2026 San Diego Eye Plastic Surgeons. All rights reserved.</p>
+        <div class="footer__social">
+          <a href="#" aria-label="Instagram">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="#" aria-label="Facebook">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3V2z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
