@@ -956,22 +956,15 @@ p {
   border-bottom: 1px solid var(--border);
 }
 
-.credentials__label {
-  text-align: center;
-  margin-bottom: 40px;
-}
-
 .credentials__strip {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  gap: 60px;
-  flex-wrap: wrap;
 }
 
 .credentials__seal {
-  width: 100px;
-  height: 100px;
+  width: 140px;
+  height: 140px;
   object-fit: contain;
   filter: grayscale(100%);
   opacity: 0.3;
@@ -985,23 +978,21 @@ p {
 
 @media (max-width: 768px) {
   .credentials__strip {
-    gap: 36px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 32px;
   }
 
   .credentials__seal {
-    width: 72px;
-    height: 72px;
+    width: 90px;
+    height: 90px;
   }
 }
 
 @media (max-width: 480px) {
-  .credentials__strip {
-    gap: 28px;
-  }
-
   .credentials__seal {
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
   }
 }
 
