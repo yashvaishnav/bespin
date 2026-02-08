@@ -997,10 +997,13 @@ p {
 }
 
 /* --- Scroll Animations --- */
+
+/* Base fade-in */
 .fade-in {
   opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  transform: translateY(40px);
+  transition: opacity 1s cubic-bezier(0.25, 0.1, 0.25, 1),
+              transform 1s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
 .fade-in.visible {
@@ -1010,8 +1013,9 @@ p {
 
 .fade-in-left {
   opacity: 0;
-  transform: translateX(-30px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  transform: translateX(-50px);
+  transition: opacity 1s cubic-bezier(0.25, 0.1, 0.25, 1),
+              transform 1s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
 .fade-in-left.visible {
@@ -1021,13 +1025,185 @@ p {
 
 .fade-in-right {
   opacity: 0;
-  transform: translateX(30px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  transform: translateX(50px);
+  transition: opacity 1s cubic-bezier(0.25, 0.1, 0.25, 1),
+              transform 1s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
 .fade-in-right.visible {
   opacity: 1;
   transform: translateX(0);
+}
+
+/* Staggered children — grid items animate in sequence */
+.stagger-children > * {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.25, 0.1, 0.25, 1),
+              transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.stagger-children.visible > *:nth-child(1) { transition-delay: 0s; }
+.stagger-children.visible > *:nth-child(2) { transition-delay: 0.15s; }
+.stagger-children.visible > *:nth-child(3) { transition-delay: 0.3s; }
+.stagger-children.visible > *:nth-child(4) { transition-delay: 0.45s; }
+.stagger-children.visible > *:nth-child(5) { transition-delay: 0.6s; }
+.stagger-children.visible > *:nth-child(6) { transition-delay: 0.75s; }
+.stagger-children.visible > *:nth-child(7) { transition-delay: 0.9s; }
+.stagger-children.visible > *:nth-child(8) { transition-delay: 1.05s; }
+
+.stagger-children.visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Text reveal — heading slides up through a clip mask */
+.text-reveal {
+  overflow: hidden;
+}
+
+.text-reveal > * {
+  transform: translateY(105%);
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.text-reveal.visible > * {
+  transform: translateY(0);
+}
+
+/* Parallax hero — background moves slower than scroll */
+.hero__bg {
+  will-change: transform;
+  transition: none;
+}
+
+/* Image scale — subtle zoom on scroll into view */
+.img-reveal {
+  overflow: hidden;
+}
+
+.img-reveal > .two-col__image,
+.img-reveal > .service-card__image,
+.img-reveal .img-reveal__inner {
+  transform: scale(1.08);
+  transition: transform 1.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.img-reveal.visible > .two-col__image,
+.img-reveal.visible > .service-card__image,
+.img-reveal.visible .img-reveal__inner {
+  transform: scale(1);
+}
+
+/* Horizontal line grow */
+.divider {
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s;
+}
+
+.visible .divider,
+.fade-in.visible .divider {
+  transform: scaleX(1);
+}
+
+/* Smooth testimonial crossfade */
+.testimonial {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  pointer-events: none;
+}
+
+.testimonial.active {
+  position: relative;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.testimonial-slider {
+  position: relative;
+}
+
+/* CTA banner text fade-up */
+.cta-banner .fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.cta-banner .fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Credentials seal stagger */
+.credentials__strip {
+  overflow: hidden;
+}
+
+.credentials.visible .credentials__seal {
+  animation: sealReveal 0.6s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+}
+
+.credentials.visible .credentials__seal:nth-child(1) { animation-delay: 0s; }
+.credentials.visible .credentials__seal:nth-child(2) { animation-delay: 0.1s; }
+.credentials.visible .credentials__seal:nth-child(3) { animation-delay: 0.2s; }
+.credentials.visible .credentials__seal:nth-child(4) { animation-delay: 0.3s; }
+.credentials.visible .credentials__seal:nth-child(5) { animation-delay: 0.4s; }
+
+@keyframes sealReveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+}
+
+/* Initially hide seals for animation */
+.credentials .credentials__seal {
+  opacity: 0;
+}
+
+/* Prefers reduced motion — respect accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .fade-in,
+  .fade-in-left,
+  .fade-in-right,
+  .stagger-children > *,
+  .text-reveal > *,
+  .img-reveal > .two-col__image,
+  .img-reveal > .service-card__image,
+  .img-reveal .img-reveal__inner,
+  .testimonial,
+  .cta-banner .fade-in {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  .divider {
+    transform: scaleX(1) !important;
+    transition: none !important;
+  }
+
+  .credentials .credentials__seal {
+    opacity: 0.3 !important;
+    animation: none !important;
+  }
+
+  .hero__bg {
+    transform: none !important;
+  }
 }
 
 /* --- Procedure Detail Page --- */

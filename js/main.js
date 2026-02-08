@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeader();
   initMobileNav();
   initScrollAnimations();
+  initParallax();
   initTestimonialSlider();
   initFaqAccordion();
   initGalleryFilter();
@@ -46,7 +47,6 @@ function initMobileNav() {
     document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
   });
 
-  // Close mobile nav when a link is clicked
   nav.querySelectorAll('a:not(.nav__dropdown-trigger)').forEach(link => {
     link.addEventListener('click', () => {
       toggle.classList.remove('active');
@@ -55,7 +55,6 @@ function initMobileNav() {
     });
   });
 
-  // Mobile dropdown toggles
   nav.querySelectorAll('.nav__dropdown-trigger').forEach(trigger => {
     trigger.addEventListener('click', (e) => {
       if (window.innerWidth <= 768) {
@@ -66,10 +65,19 @@ function initMobileNav() {
   });
 }
 
-/* --- Scroll Animations --- */
+/* --- Scroll Animations (IntersectionObserver) --- */
 function initScrollAnimations() {
-  const elements = document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // All animated elements
+  const selectors = '.fade-in, .fade-in-left, .fade-in-right, .stagger-children, .text-reveal, .img-reveal, .credentials';
+  const elements = document.querySelectorAll(selectors);
   if (!elements.length) return;
+
+  if (prefersReducedMotion) {
+    elements.forEach(el => el.classList.add('visible'));
+    return;
+  }
 
   const observer = new IntersectionObserver(
     (entries) => {
@@ -80,13 +88,51 @@ function initScrollAnimations() {
         }
       });
     },
-    { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+    { threshold: 0.12, rootMargin: '0px 0px -60px 0px' }
   );
 
   elements.forEach((el) => observer.observe(el));
 }
 
-/* --- Testimonial Slider --- */
+/* --- Parallax Effect on Hero Backgrounds --- */
+function initParallax() {
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReducedMotion) return;
+
+  const heroes = document.querySelectorAll('.hero__bg');
+  if (!heroes.length) return;
+
+  let ticking = false;
+
+  function updateParallax() {
+    const scrollY = window.scrollY;
+    heroes.forEach((bg) => {
+      const hero = bg.parentElement;
+      const heroBottom = hero.offsetTop + hero.offsetHeight;
+
+      // Only animate while the hero is in view
+      if (scrollY < heroBottom) {
+        const offset = scrollY * 0.35;
+        bg.style.transform = `translate3d(0, ${offset}px, 0) scale(1.1)`;
+      }
+    });
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(updateParallax);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  // Set initial scale
+  heroes.forEach((bg) => {
+    bg.style.transform = 'translate3d(0, 0, 0) scale(1.1)';
+  });
+}
+
+/* --- Testimonial Slider with Crossfade --- */
 function initTestimonialSlider() {
   const testimonials = document.querySelectorAll('.testimonial');
   const dots = document.querySelectorAll('.testimonial-dot');
@@ -139,13 +185,11 @@ function initFaqAccordion() {
     question.addEventListener('click', () => {
       const isOpen = item.classList.contains('active');
 
-      // Close all
       items.forEach((i) => {
         i.classList.remove('active');
         i.querySelector('.faq-item__answer').style.maxHeight = null;
       });
 
-      // Open clicked if it was closed
       if (!isOpen) {
         item.classList.add('active');
         answer.style.maxHeight = answer.scrollHeight + 'px';
@@ -169,9 +213,18 @@ function initGalleryFilter() {
 
       items.forEach((item) => {
         if (filter === 'all' || item.dataset.category === filter) {
+          item.style.opacity = '0';
           item.style.display = '';
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              item.style.transition = 'opacity 0.4s ease';
+              item.style.opacity = '1';
+            });
+          });
         } else {
-          item.style.display = 'none';
+          item.style.transition = 'opacity 0.3s ease';
+          item.style.opacity = '0';
+          setTimeout(() => { item.style.display = 'none'; }, 300);
         }
       });
     });
@@ -186,11 +239,9 @@ function initContactForm() {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    // Collect form data
     const formData = new FormData(form);
     const data = Object.fromEntries(formData);
 
-    // Basic validation
     const required = form.querySelectorAll('[required]');
     let valid = true;
 
@@ -205,13 +256,12 @@ function initContactForm() {
 
     if (!valid) return;
 
-    // Placeholder for form submission (Weave integration)
     const submitBtn = form.querySelector('button[type="submit"]');
     const originalText = submitBtn.textContent;
     submitBtn.textContent = 'Sending...';
     submitBtn.disabled = true;
 
-    // Simulate submission (replace with Weave API endpoint)
+    // Placeholder for Weave integration
     setTimeout(() => {
       submitBtn.textContent = 'Message Sent';
       form.reset();
