@@ -70,7 +70,7 @@ function initScrollAnimations() {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // All animated elements
-  const selectors = '.fade-in, .fade-in-left, .fade-in-right, .stagger-children, .text-reveal, .img-reveal, .credentials';
+  const selectors = '.fade-in, .fade-in-left, .fade-in-right, .stagger-children, .text-reveal, .img-reveal, .slide-sides, .credentials';
   const elements = document.querySelectorAll(selectors);
   if (!elements.length) return;
 
