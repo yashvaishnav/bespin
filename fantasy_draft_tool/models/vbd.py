@@ -31,7 +31,10 @@ REPLACEMENT_LEVELS = {
     "RB":  28,   # 24 starters + ~4 FLEX RBs
     "WR":  28,   # 24 starters + ~4 FLEX WRs
     "TE":  14,   # 12 starters + ~2 FLEX TEs
-    "K":   12,
+    # Fix 2: K replacement level dropped to 8 (rounds 14-16 in practice).
+    # In a 12-team league kickers go in the final 2 rounds; treating K13 as
+    # replacement inflated VBD for top kickers above RB/WR/TE streamers.
+    "K":    8,
     "DST": 12,
 }
 
@@ -42,7 +45,8 @@ SCARCITY_MULTIPLIER = {
     "RB":  1.10,   # scarce at top; premium
     "WR":  1.00,   # balanced
     "TE":  1.05,   # scarce at Tier 1; slight premium
-    "K":   0.70,   # late round; heavy discount
+    # Fix 2 cont: halved K multiplier — kickers should never outrank skill players
+    "K":   0.45,
     "DST": 0.75,   # streamable; heavy discount
 }
 

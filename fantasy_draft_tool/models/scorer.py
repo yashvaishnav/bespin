@@ -175,6 +175,20 @@ def score_all_positions(data: dict) -> dict:
         if pos not in data:
             continue
         df = data[pos]
+
+        # Fix 1: QB spot-starter filter.
+        # Require 8+ games played AND top pass-attempt getter on their team.
+        # Filters injury fill-ins (e.g. Malik Willis GB) who rack up rushing
+        # stats in a handful of starts but aren't 2026 starters.
+        if pos == "QB":
+            if "pass_attempts" in df.columns and "team" in df.columns:
+                team_max = df.groupby("team")["pass_attempts"].transform("max")
+                is_primary = df["pass_attempts"] >= team_max * 0.60
+                df = df[is_primary].copy()
+            min_games = 8
+        else:
+            min_games = 4
+
         print(f"[score] Scoring {pos} — {len(df)} players...")
-        scored[pos] = score_position(df, weights)
+        scored[pos] = score_position(df, weights, min_games=min_games)
     return scored

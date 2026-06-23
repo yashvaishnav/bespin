@@ -19,17 +19,22 @@ import os
 
 VEGAS_DATA_PATH = os.path.join(os.path.dirname(__file__), "../data/vegas_lines_2026.csv")
 
-# Multiplier range: team on best offense gets 1.12x, worst gets 0.88x
-VEGAS_BOOST_MAX = 1.12
-VEGAS_BOOST_MIN = 0.88
+# Fix 3: widened boost range so elite-offense QBs (Lamar/Mahomes) get meaningful lift
+# and bad-team players (ARI kicker, MIA skill) get appropriate discount
+VEGAS_BOOST_MAX = 1.20
+VEGAS_BOOST_MIN = 0.82
 
 # Position sensitivity to team scoring environment
 # (how much does a high-scoring offense matter for each position?)
 POSITION_VEGAS_SENSITIVITY = {
-    "QB":  1.0,    # directly tied to team scoring
+    # Fix 3: QB amplified — for elite QBs on top offenses (Lamar/Mahomes), 2026 Vegas
+    # implied totals should dominate over a potentially down Wks 7-17 2025 stretch
+    "QB":  2.0,
     "RB":  0.7,    # partially scheme-dependent
     "WR":  0.9,    # strongly tied to pass volume
-    "TE":  0.8,    # tied to pass volume, scheme-dependent
+    # Fix 4: TE dampened — volume TEs on bad teams (McBride/ARI) shouldn't be crushed;
+    # TE value is primarily route-participation and target-share driven, not team-total
+    "TE":  0.25,
     "K":   0.6,    # good offense generates FG ops, but stalls matter more
     "DST": -0.5,   # negative: playing against high-scoring offense hurts DST
 }
