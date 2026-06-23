@@ -20,6 +20,7 @@ from ingestion.fetch_stats import fetch_all, SEASON
 from models.scorer import score_all_positions
 from models.vbd import compute_vbd, get_positional_tiers
 from models.vegas import load_vegas_lines, apply_vegas_multiplier, compute_playoff_schedule_weight
+from models.situation_delta import load_situation_deltas, apply_veteran_deltas, inject_rookies
 from models.draft_board import DraftBoard
 
 
@@ -40,6 +41,11 @@ def cmd_score(args):
     print("[score] Scoring positions...")
     scored = score_all_positions(data)
 
+    print("[score] Applying veteran situation deltas...")
+    deltas = load_situation_deltas()
+    if not deltas.empty:
+        scored = apply_veteran_deltas(scored, deltas)
+
     print("[score] Applying Vegas multipliers...")
     vegas = load_vegas_lines()
     if not vegas.empty:
@@ -47,6 +53,10 @@ def cmd_score(args):
 
     print("[score] Computing VBD...")
     board = compute_vbd(scored)
+
+    print("[score] Injecting 2026 rookies...")
+    if not deltas.empty:
+        board = inject_rookies(board, deltas)
 
     os.makedirs("output", exist_ok=True)
     board.to_csv("output/draft_board.csv", index=False)
