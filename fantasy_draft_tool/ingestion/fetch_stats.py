@@ -8,7 +8,6 @@ carries which are not in the weekly stats file.
 """
 
 import nflreadpy as nflr
-import nfl_data_py as nfl  # kept only for PBP (nflreadpy load_pbp is identical)
 import pandas as pd
 import numpy as np
 import warnings
