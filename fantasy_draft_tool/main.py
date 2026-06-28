@@ -2,11 +2,15 @@
 Fantasy Draft Tool — entry point.
 
 Usage:
-  python main.py fetch          # Pull Wks 7-17 2025 stats, save to data/
-  python main.py score          # Score all positions, save to output/
-  python main.py board          # Print full draft board
-  python main.py draft          # Interactive draft session
-  python main.py board --pos RB # Positional board
+  python main.py fetch              # Pull Wks 7-17 2025 stats, save to data/
+  python main.py score              # Score all positions, save to output/
+  python main.py board              # Print full draft board
+  python main.py board --pos RB     # Positional board
+  python main.py value              # Sleepers + fades vs live FantasyPros ADP
+  python main.py value --pos WR     # WR board with ADP context
+  python main.py value --sleepers   # Sleepers only
+  python main.py value --fades      # Fades only
+  python main.py draft              # Interactive draft session
 """
 
 import sys
@@ -22,6 +26,7 @@ from models.vbd import compute_vbd, get_positional_tiers
 from models.vegas import load_vegas_lines, apply_vegas_multiplier, compute_playoff_schedule_weight
 from models.situation_delta import load_situation_deltas, apply_veteran_deltas, inject_rookies
 from models.draft_board import DraftBoard
+from models.adp_value import build_value_board, print_value_board
 
 
 def cmd_fetch(args):
@@ -144,6 +149,34 @@ def cmd_draft(args):
             print("  Unknown command. Try: rec | pick <name> | mine <name> | roster | scarcity | board [POS]")
 
 
+def cmd_value(args):
+    path = "output/draft_board.csv"
+    if not os.path.exists(path):
+        print("[error] No board found — run: python main.py score")
+        return
+
+    board = pd.read_csv(path)
+    results = build_value_board(board)
+
+    # save full value board
+    os.makedirs("output", exist_ok=True)
+    results["full"].to_csv("output/value_board.csv", index=False)
+
+    n = args.n
+    if args.pos:
+        print_value_board(results, pos=args.pos, n=n)
+    elif args.sleepers:
+        print(f"\n=== SLEEPERS — Our Model Likes vs ADP (top {n}) ===")
+        print(results["sleepers"].head(n).to_string(index=False))
+    elif args.fades:
+        print(f"\n=== FADES — ADP Overrates vs Our Model (top {n}) ===")
+        print(results["fades"].head(n).to_string(index=False))
+    else:
+        print_value_board(results, n=n)
+
+    print(f"\n[saved] output/value_board.csv")
+
+
 def main():
     parser = argparse.ArgumentParser(description="Fantasy Draft Tool")
     sub = parser.add_subparsers(dest="command")
@@ -155,7 +188,13 @@ def main():
     board_p.add_argument("--pos", type=str, default=None)
     board_p.add_argument("--n", type=int, default=300)
 
-    draft_p = sub.add_parser("draft")
+    value_p = sub.add_parser("value")
+    value_p.add_argument("--pos", type=str, default=None)
+    value_p.add_argument("--sleepers", action="store_true", default=False)
+    value_p.add_argument("--fades", action="store_true", default=False)
+    value_p.add_argument("--n", type=int, default=30)
+
+    sub.add_parser("draft")
 
     args = parser.parse_args()
 
@@ -165,6 +204,8 @@ def main():
         cmd_score(args)
     elif args.command == "board":
         cmd_board(args)
+    elif args.command == "value":
+        cmd_value(args)
     elif args.command == "draft":
         cmd_draft(args)
     else:
